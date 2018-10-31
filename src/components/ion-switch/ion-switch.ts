@@ -14,16 +14,34 @@ import { OptionItem } from './option-item.model';
 export class IonSwitchComponent {
 
   toggleValue: string;
+  toggleValueArr: Array<string>;
  
   @Input() options: Array<OptionItem>;
-  @Input() selected: string;
-  @Output() selectedChange: EventEmitter<string> = new EventEmitter<string>();
+  @Input() multiple: boolean;
+  @Input() selected: any;
+  @Output() selectedChange: EventEmitter<any> = new EventEmitter<any>();
   
   constructor() {
-  
+    this.multiple=false;
+    this.toggleValueArr=new Array<string>();
   }
 
   toggle(value){
+
+    if(this.multiple){
+      this.switchValueMulti(value);
+    }else{
+      this.switchValue(value);
+    }   
+  }
+
+  switchValueMulti(value){
+    const checkedOptions = this.options.filter(x => x.checked);
+    this.toggleValueArr = checkedOptions.map(x => x.value);    
+    this.selectedChange.emit(checkedOptions.map(x => x.value));
+  }
+
+  switchValue(value){
     if(value!=this.toggleValue){
       this.options.filter(option=>option.value!=value).map(option=>option.checked=false);
       this.toggleValue=value;

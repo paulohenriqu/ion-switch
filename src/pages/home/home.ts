@@ -11,8 +11,10 @@ export class HomePage {
 
   toggleValue: string;
   toggleComponentValue: string;
+  toggleComponentValueMulti:Array<string>=new Array<string>();
   options: Array<any>;
   optionsComponent: Array<OptionItem>;
+  optionsComponentMulti: Array<OptionItem>;
 
   constructor(public navCtrl: NavController) {
 
@@ -27,6 +29,9 @@ export class HomePage {
     this.optionsComponent.push(new OptionItem("op1", "Opção1"));
     this.optionsComponent.push(new OptionItem("op2", "Opção2"));
     this.optionsComponent.push(new OptionItem("op3", "Opção3"));
+
+    //componente separado escolha múltipla
+    this.optionsComponentMulti= JSON.parse(JSON.stringify(this.optionsComponent));
   }
 
   toggle(value){
