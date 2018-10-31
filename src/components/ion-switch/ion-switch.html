@@ -1,4 +1,4 @@
 <ion-item *ngFor="let option of options">
-    <ion-label>Teste</ion-label>
-    <ion-toggle></ion-toggle>
+    <ion-label>{{option.label}}</ion-label>
+    <ion-toggle [(ngModel)]="option.checked" (ngModelChange)="toggle(option.value)"></ion-toggle>
   </ion-item>

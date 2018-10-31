@@ -14,13 +14,27 @@
     <ion-list-header>
       Direto no componente principal
     </ion-list-header>
+
     <ion-item *ngFor="let option of options">
       <ion-label>{{option.label}}</ion-label>
       <ion-toggle [(ngModel)]="option.checked" (ngModelChange)="toggle(option.value)"></ion-toggle>
     </ion-item>
 
     <ion-item>
-      Selected: {{toogleValue}}
+      Selected: {{toggleValue}}
+    </ion-item>
+
+    <ion-item-divider>
+    </ion-item-divider>
+
+    <ion-list-header>
+      Componente Separado
+    </ion-list-header>
+
+    <ion-switch [options]="optionsComponent" [(selected)]="toggleComponentValue"></ion-switch>
+
+    <ion-item>
+      Selected: {{toggleComponentValue}}
     </ion-item>
 
   </ion-list>
