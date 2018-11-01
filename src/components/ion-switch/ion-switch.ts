@@ -26,25 +26,25 @@ export class IonSwitchComponent {
     this.toggleValueArr=new Array<string>();
   }
 
-  toggle(value){
+  toggle(option){
 
     if(this.multiple){
-      this.switchValueMulti(value);
+      this.switchValueMulti(option.value);
     }else{
-      this.switchValue(value);
+      this.switchValue(option);
     }   
   }
 
   switchValueMulti(value){
     const checkedOptions = this.options.filter(x => x.checked);
     this.toggleValueArr = checkedOptions.map(x => x.value);    
-    this.selectedChange.emit(checkedOptions.map(x => x.value));
+    this.selectedChange.emit(this.toggleValueArr);
   }
 
-  switchValue(value){
-    if(value!=this.toggleValue){
-      this.options.filter(option=>option.value!=value).map(option=>option.checked=false);
-      this.toggleValue=value;
+  switchValue(option){
+    if(option.value!=this.toggleValue && option.checked){
+      this.options.filter(x=>x.value!=option.value).map(x=>x.checked=false);
+      this.toggleValue=option.value;
     }else{
       this.toggleValue="";
     }
