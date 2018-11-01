@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { OptionItem } from './option-item.model';
 
 /**
@@ -11,42 +11,51 @@ import { OptionItem } from './option-item.model';
   selector: 'ion-switch',
   templateUrl: 'ion-switch.html'
 })
-export class IonSwitchComponent {
+export class IonSwitchComponent implements OnChanges {
 
   toggleValue: string;
   toggleValueArr: Array<string>;
- 
+
   @Input() options: Array<OptionItem>;
   @Input() multiple: boolean;
   @Input() selected: any;
   @Output() selectedChange: EventEmitter<any> = new EventEmitter<any>();
-  
+
   constructor() {
-    this.multiple=false;
-    this.toggleValueArr=new Array<string>();
+    this.multiple = false;
+    this.toggleValueArr = new Array<string>();
   }
 
-  toggle(option){
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['options']) {      
+      const checkedOptions = this.options.filter(x => x.checked);
+      if (checkedOptions.length > 0) {
+        this.toggle(checkedOptions[0]);
+      }
+    }
+  }
 
-    if(this.multiple){
+  toggle(option) {
+
+    if (this.multiple) {
       this.switchValueMulti(option.value);
-    }else{
+    } else {
       this.switchValue(option);
-    }   
+    }
   }
 
-  switchValueMulti(value){
+  switchValueMulti(value) {
     const checkedOptions = this.options.filter(x => x.checked);
-    this.toggleValueArr = checkedOptions.map(x => x.value);    
+    this.toggleValueArr = checkedOptions.map(x => x.value);
     this.selectedChange.emit(this.toggleValueArr);
   }
 
-  switchValue(option){
-    if(option.value!=this.toggleValue && option.checked){
-      this.options.filter(x=>x.value!=option.value).map(x=>x.checked=false);
-      this.toggleValue=option.value;
-    }else{
-      this.toggleValue="";
+  switchValue(option) {
+    if (option.value != this.toggleValue && option.checked) {
+      this.options.filter(x => x.value != option.value).map(x => x.checked = false);
+      this.toggleValue = option.value;
+    } else {
+      this.toggleValue = "";
     }
     this.selectedChange.emit(this.toggleValue);
   }
