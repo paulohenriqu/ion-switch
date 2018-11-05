@@ -19,7 +19,7 @@ export class IonSwitchComponent implements OnChanges {
   @Input() options: Array<OptionItem>;
   @Input() multiple: boolean;
   @Input() selected: any;
-  @Output() selectedChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output() selectedChange: EventEmitter<any> = new EventEmitter<any>(true);
 
   constructor() {
     this.multiple = false;
@@ -27,7 +27,7 @@ export class IonSwitchComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['options']) {      
+    if (changes['options']) {          
       const checkedOptions = this.options.filter(x => x.checked);
       if (checkedOptions.length > 0) {
         this.toggle(checkedOptions[0]);
